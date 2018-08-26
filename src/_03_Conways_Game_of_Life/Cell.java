@@ -1,6 +1,7 @@
 package _03_Conways_Game_of_Life;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.sql.SQLInvalidAuthorizationSpecException;
 
 public class Cell implements Drawable{
 	public boolean isAlive = false;
@@ -17,7 +18,7 @@ public class Cell implements Drawable{
 		this.cellSize = size;
 	}
 	
-	//11. Complete tue liveOrDie method
+	//11. Complete the liveOrDie method
 	//    It sets isAlive to true or false based on the neighbors and 
 	//the rules of the game
 	/*
@@ -28,7 +29,16 @@ public class Cell implements Drawable{
 	 * (source: Wikipedia)
 	 * */
 	public void liveOrDie(int numNeighbors) {
-		
+	
+	if(numNeighbors < 2) {
+		isAlive = false;
+	}else if(numNeighbors == 2) {
+		isAlive = true;
+	}else if(numNeighbors == 3) {
+		isAlive = true;
+	}else if(numNeighbors > 3) {
+		isAlive = false;
+	}
 	}
 	
 	public int getX() {
@@ -45,7 +55,12 @@ public class Cell implements Drawable{
 	@Override
 	public void draw(Graphics g) {
 	
-		
+		if(isAlive == true) {
+		g.setColor(Color.YELLOW);
+		g.drawRect(x, y, cellSize, cellSize);
+		}else if(isAlive == false) {
+		g.drawRect(x, y, cellSize, cellSize);
+		}
 		
 		
 		
