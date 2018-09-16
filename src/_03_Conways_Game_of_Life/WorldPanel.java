@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -47,7 +48,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	
 	public void randomizeCells() {
 		//4. Iterate through each cell and randomly set each
-		//   cell's isAlive memeber to true of false
+		//   cell's isAlive member to true of false
 		for(int i = 0; i < array.length; i++) {
 			for(int j = 0; j < array[i].length; j++) {
 				int rand = new Random().nextInt(2);
@@ -102,34 +103,34 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//7. iterate through cells and get their neighbors
 		for(int i = 0; i < array.length; i++) {
 			for(int j = 0; j < array[i].length; j++) {
-				int aliveNeighbors = 0;
-				for(int k = i-1; k < i+2; k++) {
-					for(int l = j-1; l < j+2; l++) {
-						if(k >= 0 && l >= 0 && k <= array.length && l <= array.length) {
-							if(array[k][l].isAlive == true) {
-								aliveNeighbors++;
-							}else if(array[k][l].isAlive == false) {
-								//nil
-							}
-						}
-					}
-				}
+				array[i][j].liveOrDie(getLivingNeighbors(i,j));
 			}
 		}
 		
 		//8. check if each cell should live or die
-	
-		
-		
-		
+
 		repaint();
+		
 	}
-	
+
 	//9. Complete the method.
 	//   It returns an array list of the  8 or less neighbors of the 
 	//   cell identified by x and y
 	public int getLivingNeighbors(int x, int y){
-		return 0;
+		ArrayList<Cell> neigh = new ArrayList<Cell>();
+		for(int k = x-1; k < x+2; k++) {
+			for(int l = y-1; l < y+2; l++) {
+				if(k >= 0 && l >= 0 && k < array.length && l < array.length && k != x && l != y) {
+					if(array[k][l].isAlive == true) {
+				neigh.add(array[k][l]);
+					}else if(array[k][l].isAlive == false) {
+						
+					}
+					
+				}
+			}
+		}
+		return neigh.size();
 	}
 
 	@Override
@@ -155,8 +156,11 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//    which cell is clicked. Then toggle
 		//    the isAlive variable for that cell.
 		
-		
-		
+		if(array[e.getX()/cellSize][e.getY()/cellSize].isAlive = false) {
+		array[e.getX()/cellSize][e.getY()/cellSize].isAlive = true;
+		}else if(array[e.getX()/cellSize][e.getY()/cellSize].isAlive = true) {
+		array[e.getX()/cellSize][e.getY()/cellSize].isAlive = false;
+		}
 		
 		repaint();
 	}
