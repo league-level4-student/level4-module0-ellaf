@@ -5,6 +5,7 @@ import java.sql.SQLInvalidAuthorizationSpecException;
 
 public class Cell implements Drawable{
 	public boolean isAlive = false;
+	public boolean should  = false;
 	
 	private int x;
 	private int y;
@@ -30,14 +31,13 @@ public class Cell implements Drawable{
 	 * */
 	public void liveOrDie(int numNeighbors) {
 	if((!isAlive)&&numNeighbors == 3) {
-		isAlive = true;
-	}
-	if(isAlive&&numNeighbors < 2) {
-		isAlive = false;
+		should = true;
+	}if(isAlive&&numNeighbors < 2) {
+		should = false;
 	}if(isAlive&&(numNeighbors == 2||numNeighbors==3)) {
-		isAlive = true;
+		should = true;
 	}if(isAlive&&numNeighbors > 3) {
-		isAlive = false;
+		should = false;
 	}
 	}
 	
@@ -59,7 +59,7 @@ public class Cell implements Drawable{
 		g.setColor(Color.YELLOW);
 		g.fillRect(x, y, cellSize, cellSize);
 		}else if(isAlive == false) {
-		g.setColor(Color.lightGray);
+		g.setColor(Color.DARK_GRAY);
 		g.fillRect(x, y, cellSize, cellSize);
 		}
 		
