@@ -1,6 +1,6 @@
 int brick_width = 30;
 int brick_height = 12;
-int bricks_in_base = 30;
+int bricks_in_base = 14;
 void setup(){
 size(500,500);
 int totalBricks = 0;
