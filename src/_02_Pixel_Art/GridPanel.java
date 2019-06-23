@@ -38,6 +38,7 @@ public class GridPanel extends JPanel implements Serializable{
 		this.pixelWidth = windowWidth / cols;
 		this.pixelHeight = windowHeight / rows;
 		
+		
 		color = Color.BLACK;
 
 		setPreferredSize(new Dimension(windowWidth, windowHeight));
@@ -51,9 +52,6 @@ public class GridPanel extends JPanel implements Serializable{
 				pixels[i][j] = new Pixel(i * pixelWidth, j * pixelHeight);
 			}
 		}
-		
-	
-		//GridPanel loadedData = load();
 
 
 	}
