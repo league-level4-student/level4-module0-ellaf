@@ -22,11 +22,12 @@ import javax.swing.JPanel;
 
 
 
-public class PixelArtMaker implements MouseListener, MouseMotionListener, Serializable{
+public class PixelArtMaker implements MouseListener, MouseMotionListener, ActionListener{
 	private JFrame window;
 	private GridInputPanel gip;
 	private GridPanel gp;
 	ColorSelectionPanel csp;
+	JButton save = new JButton("Save");
 	
 
 	public void start() {
@@ -41,18 +42,20 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener, Serial
 		
 	}
 
-	public void submitGridData(int win, int hei, int row, int col) {
-		GridPanel loadedData = load();
-		gp = new GridPanel(loadedData.windowWidth, loadedData.windowHeight, loadedData.rows, loadedData.cols);
+	public void submitGridData(int w, int h, int r, int c) {
+		//GridPanel loadedData = load();
+		gp = new GridPanel(w, h, r, c);
 		csp = new ColorSelectionPanel();
 		window.remove(gip);
 		window.add(gp);
 		window.add(csp);
+		window.add(save);
+		save.addActionListener(this);
 		gp.repaint();
 		gp.addMouseListener(this);
 		gp.addMouseMotionListener(this);
 		window.pack();
-		save(new GridPanel(win, hei, row, col));
+		//save(new GridPanel(w, h, r, c));
 		
 		
 	}
@@ -71,6 +74,7 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener, Serial
 		System.out.println(csp.getSelectedColor());
 		gp.clickPixel(e.getX(), e.getY());
 		gp.repaint();
+		
 
 	}
 
@@ -100,27 +104,15 @@ public class PixelArtMaker implements MouseListener, MouseMotionListener, Serial
 		// TODO Auto-generated method stub
 
 	}
-	
-	private static void save(GridPanel data) {
-		try (FileOutputStream fos = new FileOutputStream(new File("src/_02_Pixel_Art/save.dat")); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-			oos.writeObject(data);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
-	private static GridPanel load() {
-		try (FileInputStream fis = new FileInputStream(new File("src/_02_Pixel_Art/save.dat")); ObjectInputStream ois = new ObjectInputStream(fis)) {
-			return (GridPanel) ois.readObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} catch (ClassNotFoundException e) {
-			// This can occur if the object we read from the file is not
-			// an instance of any recognized class
-			e.printStackTrace();
-			return null;
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource().equals(save)) {
+			gp.saveData();
 		}
 	}
+	
+
 
 }
