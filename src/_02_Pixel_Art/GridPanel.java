@@ -41,6 +41,7 @@ public class GridPanel extends JPanel implements Serializable, ActionListener{
 		this.cols = c;
 		this.pixelWidth = windowWidth / cols;
 		this.pixelHeight = windowHeight / rows;
+
 		
 		color = Color.BLACK;
 
@@ -54,12 +55,26 @@ public class GridPanel extends JPanel implements Serializable, ActionListener{
 		for (int i = 0; i < pixels.length; i++) {
 			for (int j = 0; j < pixels[i].length; j++) {
 				pixels[i][j] = new Pixel(i * pixelWidth, j * pixelHeight);
-				pixels[i][j] = new Pixel(savedPixels.x, savedPixels.y);
+		//		pixels[i][j] = new Pixel(savedPixels.x, savedPixels.y);
 			}
 		}
 
 
 	}
+	
+	public int getWindowHeight() {
+		return windowHeight;
+	}
+	public int getWindowWidth() {
+		return windowWidth;
+	}
+	public int getRows() {
+		return rows;
+	}
+	public int getCols() {
+		return cols;
+	}
+	
 	
 	void saveData() {
 	save(this);
@@ -91,7 +106,27 @@ public class GridPanel extends JPanel implements Serializable, ActionListener{
 
 	}
 	
-
+	private static void save(GridPanel data) {
+		try (FileOutputStream fos = new FileOutputStream(new File("src/_02_Pixel_Art/save.dat")); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+			oos.writeObject(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static GridPanel load() {
+		try (FileInputStream fis = new FileInputStream(new File("src/_02_Pixel_Art/save.dat")); ObjectInputStream ois = new ObjectInputStream(fis)) {
+			return (GridPanel) ois.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			// This can occur if the object we read from the file is not
+			// an instance of any recognized class
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
